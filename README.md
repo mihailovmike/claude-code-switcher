@@ -17,7 +17,7 @@ cd claude-code-switcher
 
 Что делает `install.sh`:
 
-- Ставит в `~/.local/bin/`: `cc-glm`, `cc-claude`, `claude-ollama` (и `cc-status`, если есть).
+- Ставит в `~/.local/bin/`: `cc-glm`, `cc-claude`, `claude-ollama`, `claude-kimi` (и `cc-status`, если есть).
 - Копирует шаблоны в `~/.claude/settings.glm.json`, `~/.claude/settings.claude.json`.
 - Создаёт профиль `~/.claude-ollama/` и симлинкует в него правила, skills, agents, hooks, plugins, commands, settings, MCP-конфиг из основного `~/.claude/`.
 - Опционально — спрашивает GLM-токен (Enter — пропустить).
@@ -84,6 +84,17 @@ claude-ollama --model qwen3-coder              # локальная модель
 
 Список облачных моделей: <https://ollama.com/search?c=cloud>
 
+#### `claude-kimi` — быстрый старт на Kimi K2.6
+
+Тот же профиль `~/.claude-ollama/`, но с зашитой моделью [`kimi-k2.6:cloud`](https://ollama.com/library/kimi-k2.6) (Moonshot AI, open-source multimodal agentic, 256K контекст):
+
+```bash
+claude-kimi              # = claude-ollama --model kimi-k2.6:cloud
+claude-kimi --resume
+```
+
+Дополнительные аргументы прокидываются в `ollama launch claude` дальше, так что можно переопределить модель на лету (`claude-kimi --model kimi-k2.6:cloud-thinking`) или передать любой другой флаг.
+
 ### GLM (Z.ai) / нативный Claude через env-swap
 
 ```bash
@@ -101,6 +112,7 @@ cc-claude    # вернуть нативный Claude
 |-|-|
 | Хочу временно сменить модель на GLM | `cc-glm` |
 | Хочу попробовать Ollama один раз | `claude-ollama --model <...>` |
+| Хочу быстро запустить Kimi K2.6 | `claude-kimi` |
 | Держу Max-аккаунт и Ollama параллельно в разных вкладках | `claude` + `claude-ollama` |
 | Нужны разные истории сессий | профиль (т.е. `claude-ollama`) |
 | Основной `~/.claude/` ни в коем случае не трогать | профиль |
@@ -112,6 +124,7 @@ cc-claude    # вернуть нативный Claude
 ```
 ~/.local/bin/
 ├── claude-ollama            # бинарник-обёртка
+├── claude-kimi              # claude-ollama с моделью kimi-k2.6:cloud
 ├── cc-glm                   # env-swap на GLM
 └── cc-claude                # env-swap на нативный Claude
 

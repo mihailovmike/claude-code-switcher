@@ -16,6 +16,7 @@ install -m 600 "$REPO_DIR/templates/settings.glm.json"    "$HOME/.claude/setting
 
 # ─── параллельный профиль под Ollama ──────────────────────────────────────
 install -m 755 "$REPO_DIR/bin/claude-ollama" "$HOME/.local/bin/claude-ollama"
+install -m 755 "$REPO_DIR/bin/claude-kimi"   "$HOME/.local/bin/claude-kimi"
 
 PROFILE_DIR="$HOME/.claude-ollama"
 mkdir -p "$PROFILE_DIR"
@@ -70,6 +71,7 @@ cat <<'DONE'
   cc-glm         → включить GLM (Z.ai), env-swap в ~/.claude/
   cc-claude      → включить родной Claude (Anthropic), env-swap
   claude-ollama  → отдельный профиль ~/.claude-ollama/, подключён к Ollama
+  claude-kimi    → то же, но сразу с моделью kimi-k2.6:cloud (Moonshot AI)
 
 Проверь:
   ls -la ~/.claude-ollama/                 # должны быть symlinks на ~/.claude/

@@ -1,0 +1,29 @@
+#!/bin/bash
+# Shortcut: запускает Claude Code в профиле ~/.claude-ollama/ c моделью
+# Kimi K2.6 (Moonshot AI, open-source multimodal agentic, 256K context) через Ollama Cloud.
+#
+# Это просто обёртка над `claude-ollama --model kimi-k2.6:cloud`:
+#   - профиль и symlinks настраиваются install.sh'ом (как и для claude-ollama);
+#   - логин ollama.com первый раз откроет браузер;
+#   - передаваемые аргументы прокидываются дальше (можно переопределить --model).
+#
+# Использование:
+#   claude-kimi
+#   claude-kimi --resume
+set -euo pipefail
+
+PROFILE_DIR="$HOME/.claude-ollama"
+MODEL="kimi-k2.6:cloud"
+
+if [ ! -d "$PROFILE_DIR" ]; then
+  echo "ERROR: профиль $PROFILE_DIR не инициализирован." >&2
+  echo "Запусти ./install.sh в корне claude-code-switcher." >&2
+  exit 1
+fi
+
+if ! command -v ollama >/dev/null 2>&1; then
+  echo "ERROR: ollama не установлена. https://ollama.com/download" >&2
+  exit 1
+fi
+
+exec env CLAUDE_CONFIG_DIR="$PROFILE_DIR" ollama launch claude --model "$MODEL" "$@"
